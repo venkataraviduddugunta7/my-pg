@@ -5,8 +5,15 @@ const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const app = express();
-const uri = 'mongodb+srv://venkataraviduddugunta:JVAZwjgvrhIEjq6R@mypg.k3plo.mongodb.net/?retryWrites=true&w=majority&appName=MyPG';
-const client = new MongoClient(uri);
+const uri = 'mongodb+srv://venkataraviduddugunta:JVAZwjgvrhIEjq6R@mypg.k3plo.mongodb.net/MyPG?retryWrites=true&w=majority&tls=true';
+const client = new MongoClient(uri, {
+    tls: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    connectTimeoutMS: 10000 
+  });
+  
+  
 
 // Enable CORS for all routes
 app.use(cors({
@@ -19,10 +26,12 @@ const users = [];
 // MongoDB connection and routes
 async function run() {
     try {
+        console.log('Connecting to MongoDB...');
         await client.connect();
+        console.log('Connected to MongoDB successfully');
+
         const database = client.db('MyPG');
         const collection = database.collection('MyPG.Authentication');
-
         // Register a new user
         app.post('/register', async (req, res) => {
             const { username, password } = req.body;
@@ -83,7 +92,7 @@ async function run() {
             console.log('Server is running on http://localhost:5000');
         });
     } catch (error) {
-        console.error('Connection failed:', error);
+        console.error('MongoDB connection failed:', error.message);
     }
 }
 
