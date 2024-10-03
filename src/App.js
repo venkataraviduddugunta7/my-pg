@@ -13,17 +13,14 @@ const client = new MongoClient(uri, {
     connectTimeoutMS: 10000 
   });
   
-  
-
-// Enable CORS for all routes
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow only your React app
+  origin: 'http://localhost:3000',
 }));
 
 app.use(bodyParser.json());
 const users = [];
 
-// MongoDB connection and routes
+
 async function run() {
     try {
         console.log('Connecting to MongoDB...');
@@ -88,8 +85,8 @@ async function run() {
             process.exit(0);
         });
 
-        app.listen(5000, () => {
-            console.log('Server is running on http://localhost:5000');
+        app.listen(5001, () => {
+            console.log('Server is running on http://localhost:5001');
         });
     } catch (error) {
         console.error('MongoDB connection failed:', error.message);
