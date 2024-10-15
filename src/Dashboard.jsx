@@ -38,8 +38,8 @@ const Dashboard = ({ username, onLogout }) => {
                     style={{ marginBottom: 8, display: 'block' }}
                 />
                 <Button
-                    className='customButton'
-                    type="primary"
+                    className='customButtonLink'
+                    type="link"
                     onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
                     icon={<SearchOutlined />}
                     style={{ marginRight: 8 }}
@@ -47,7 +47,8 @@ const Dashboard = ({ username, onLogout }) => {
                     Search
                 </Button>
                 <Button
-                    className='customButton'
+                    type='link'
+                    className='customButtonLink'
                     onClick={() => handleReset(clearFilters)}
                 >
                     Reset
