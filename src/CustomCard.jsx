@@ -1,6 +1,6 @@
 import { Card } from "antd";
 import React, { useState } from "react";
-import './styles.css';
+import './App.css';
 
 const CustomCard = ({ title, extraActionNode, children }) => {
     const [isHovered, setIsHovered] = useState(false);

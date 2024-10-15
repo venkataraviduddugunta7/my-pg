@@ -15,14 +15,14 @@ const Login = ({ onSuccessfulLogin }) => { // Receive the callback prop
     const handleLogin = async (values) => {
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('http://localhost:5001/login', { // Updated to port 5001
                 username: values.username,
                 password: values.password,
             });
             notification.success({ message: response.data.message });
 
             // Call the callback to update authentication state in the parent
-            onSuccessfulLogin(); 
+            onSuccessfulLogin(values.username);
 
             navigate("/dashboard"); 
         } catch (error) {
@@ -35,17 +35,25 @@ const Login = ({ onSuccessfulLogin }) => { // Receive the callback prop
     };
 
     return (
-        <Layout style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width:'100%' }}>
+        <Layout style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
             <CustomCard style={{ width: '30vw', borderRadius: '12px', padding: '20px' }}>
                 <Typography.Title level={4} align="center">Login</Typography.Title>
                 <Form onFinish={handleLogin} layout="vertical">
-                    <Form.Item name="username" label="Username" required>
+                    <Form.Item 
+                        name="username" 
+                        label="Username" 
+                        rules={[{ required: true, message: 'Please input your username!' }]}
+                    >
                         <Input
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </Form.Item>
-                    <Form.Item name="password" label="Password" required>
+                    <Form.Item 
+                        name="password" 
+                        label="Password" 
+                        rules={[{ required: true, message: 'Please input your password!' }]}
+                    >
                         <Input.Password
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -64,7 +72,7 @@ const Login = ({ onSuccessfulLogin }) => { // Receive the callback prop
                 </Form>
                 <Row justify="space-between">
                     <Col>
-                        <Button type="link" onClick={()=>{navigate("/register")}}>Don't Have an Account?</Button>
+                        <Button type="link" onClick={() => navigate("/register")}>Don't Have an Account?</Button>
                     </Col>
                     <Col>
                         <Button type="link">Forget Password?</Button>

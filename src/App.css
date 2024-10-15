@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;600&display=swap');
 .App {
   text-align: center;
 }
@@ -36,3 +37,68 @@
     transform: rotate(360deg);
   }
 }
+
+/* For Inter */
+.inter {
+  font-family: 'Inter', sans-serif; 
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* For Poppins */
+.customButtonLink {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  color: #007BFF; 
+  text-decoration: none; 
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.customButtonLink:active {
+  transform: translateY(2px); 
+  color: #0056b3; 
+}
+
+
+.customButton {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  background-color: #007BFF; 
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.customButton:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.15); 
+  transform: translateY(4px);
+}
+
+.ant-btn .anticon svg { 
+  font-weight: bold !important; 
+}
+
+/* Card styles */
+.customCard {
+  border-radius: 12px;
+  padding: 0px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.1); /* Reduced shadow */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  background-color: #fff;
+  transform: perspective(1000px) translateZ(0); /* Set a base for 3D space */
+  will-change: transform, box-shadow; /* Performance enhancement for transitions */
+}
+
+/* Hover effect - Pressed effect with glow */
+.customCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.15), 0 0px 20px rgba(255, 188, 53, 0.808); /* Glowing edge effect */
+  transform: perspective(1000px) translateZ(-4px); /* Move card inward to simulate a pressed effect */
+}
+
+
+

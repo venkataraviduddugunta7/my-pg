@@ -21,11 +21,11 @@ const Register = () => {
             return;
         }
         try {
-            const response = await axios.post('http://localhost:5000/register', { 
+            const response = await axios.post('http://localhost:5001/register', { // Updated to port 5001
                 username: values.username, 
                 password: values.password 
             });
-            notification.success({ message: 'Succesfully Registered' });
+            notification.success({ message: 'Successfully Registered' });
             navigate('/login');
         } catch (error) {
             notification.error({ 
@@ -40,7 +40,7 @@ const Register = () => {
     const checkUsernameAvailability = async (username) => {
         if (username) {
             try {
-                const response = await axios.post('http://localhost:5000/check-username', { username });
+                const response = await axios.post('http://localhost:5001/check-username', { username }); // Updated to port 5001
                 setIsUsernameAvailable(response.data.available);
             } catch (error) {
                 setIsUsernameAvailable(true); // Assume available on error
@@ -79,7 +79,7 @@ const Register = () => {
                     >
                         <Input
                             prefix={<UserOutlined />}
-                             placeholder="Use your Email !"
+                            placeholder="Use your Email !"
                             onChange={handleUsernameChange} // Handle input change
                         />
                     </Form.Item>

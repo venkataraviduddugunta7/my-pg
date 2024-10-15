@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
@@ -6,22 +6,54 @@ import Dashboard from './Dashboard';
 import './styles.css';
 
 const MainApp = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false); 
+    const [username, setUsername] = useState(null); 
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        return localStorage.getItem('isAuthenticated') === 'true';
+    });
+
+    useEffect(() => {
+        const checkAuth = () => {
+            const isAuth = localStorage.getItem('isAuthenticated') === 'true';
+            setIsAuthenticated(isAuth);
+            if (isAuth) {
+                setUsername(localStorage.getItem('username')); 
+            }
+        };
+        checkAuth();
+    }, []);
+
+    const handleLogin = (username) => { 
+        setIsAuthenticated(true);
+        localStorage.setItem('isAuthenticated', 'true'); 
+        localStorage.setItem('username', username); 
+    };
+
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        localStorage.removeItem('isAuthenticated');
+    };
 
     return (
         <Router>
             <Routes>
+                <Route path="/" element={<Navigate to="/login" />} />
                 <Route path="/register" element={<Register />} />
                 <Route 
                     path="/login" 
-                    element={<Login onSuccessfulLogin={() => setIsAuthenticated(true)} />} 
+                    element={<Login onSuccessfulLogin={handleLogin} />} 
                 />
-                <Route path="/" element={<h1>Welcome to My App</h1>} />
-                {/* Protected Route */}
+                {/* Protected Routes */}
                 <Route
-                    path="/dashboard"
-                    element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} 
-                />
+                path="/dashboard"
+                element={isAuthenticated ? (
+                    <Dashboard
+                        username={localStorage.getItem('username')}
+                        onLogout={handleLogout}
+                    />
+                ) : (
+                    <Navigate to="/login" />
+                )}
+            />
             </Routes>
         </Router>
     );
