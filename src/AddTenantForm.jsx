@@ -1,4 +1,4 @@
-// AddTenantForm.js
+
 import React from 'react';
 import { Form, Input, Select, DatePicker, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
