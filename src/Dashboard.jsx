@@ -178,7 +178,7 @@ const Dashboard = ({ username, onLogout }) => {
                 </Menu>
             </Sider>
             <Layout>
-                <Header style={{ background: '#fff', padding: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px' }}>
+                <Header style={{ background: '#fff', padding: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px 0 16px' }}>
                     <Title level={3} style={{ margin: 0 }}>My Dashboard</Title>
                     <Card className="customCard" bodyStyle={{ padding: "0px", margin:"10px" }} >
                         <div className="no-padding-space">
