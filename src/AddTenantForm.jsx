@@ -7,6 +7,11 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
 
     const [email, setEmail] = useState('');
     const [aadhar, setAadhar] = useState('');
+    const [fileList, setFileList] = useState([]); // To control uploaded files
+
+    const handlePhotoChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    };
 
 
     const handleNumberInput = (e) => {
@@ -56,23 +61,32 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             <Input placeholder="Enter tenant name" onKeyPress={handleTextInput} />
                         </Form.Item>
                     </Col>
-                    <Col span={6}>
-                        <Form.Item
+                    <Col span={6} className="photo-upload-col">
+                    <Form.Item      
                             name="photo"
-                            valuePropName="fileList"
+                            valuePropName="fileList" 
                             getValueFromEvent={e => Array.isArray(e) ? e : e?.fileList}
                             rules={[{ required: true, message: 'Please upload a photo!' }]}
                         >
                             <Upload
                                 listType="picture-card"
-                                maxCount={1}
+                                maxCount={1} 
                                 accept="image/*"
                                 beforeUpload={() => false}
+                                fileList={fileList} 
+                                onChange={handlePhotoChange} 
+                                showUploadList={{
+                                    showPreviewIcon: false,
+                                    showRemoveIcon: true,
+                                    showDownloadIcon: false, 
+                                }}
                             >
-                                <div>
-                                    <UploadOutlined />
-                                    <div style={{ marginTop: 8 }}>Upload</div>
-                                </div>
+                                {fileList.length < 1 && ( 
+                                    <div>
+                                        <UploadOutlined />
+                                        <div style={{ marginTop: 8 }}>Upload</div>
+                                    </div>
+                                )}
                             </Upload>
                             <div style={{ textAlign: 'center', fontSize: "12px", }}>Passport Photo</div>
                         </Form.Item>

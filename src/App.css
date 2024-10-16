@@ -99,6 +99,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.15), 0 0px 20px rgba(255, 188, 53, 0.808); /* Glowing edge effect */
   transform: perspective(1000px) translateZ(-4px); /* Move card inward to simulate a pressed effect */
 }
+.photo-upload-col {
+  height: 132px; 
+}
 
 
 
