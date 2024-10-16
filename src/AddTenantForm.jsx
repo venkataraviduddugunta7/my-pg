@@ -214,7 +214,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             </Upload>
                         </Form.Item>
                     </Col>
-                    <Col span={10}>
+                    {/* <Col span={10}>
                         <Form.Item label="Payment Mode">
                         <Radio.Group>
                                 <Radio value="cash">Cash</Radio>
@@ -222,7 +222,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             </Radio.Group>
 
                         </Form.Item>
-                    </Col>
+                    </Col> */}
 
                 </Row>
 
