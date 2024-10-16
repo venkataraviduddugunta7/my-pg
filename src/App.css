@@ -103,5 +103,7 @@
   height: 132px; 
 }
 
-
+:where(.css-dev-only-do-not-override-qnu6hi).ant-form-vertical .ant-form-item:not(.ant-form-item-horizontal) .ant-form-item-label {
+  padding: 0px; 
+}
 

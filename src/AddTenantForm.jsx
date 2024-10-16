@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Select, DatePicker, Button, Space, Upload, Row, Col, Checkbox } from 'antd';
+import { Form, Input, Select, DatePicker, Button, Space, Upload, Row, Col, Checkbox, Radio } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const AddTenantForm = ({ onSubmit, onCancel }) => {
@@ -52,21 +52,35 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 {/* Row 1: Tenant Name (Full width) and Photo Upload */}
                 <Row gutter={16}>
                     <Col span={18}>
-                        <Form.Item
+                    <Form.Item
                             label="Full Name ( As per GOVT ID )"
                             name="name"
                             rules={[{ required: true, message: 'Please enter tenant name!' }]}
-                            validateTrigger="onSubmit"
                         >
                             <Input placeholder="Enter tenant name" onKeyPress={handleTextInput} />
                         </Form.Item>
+                        <Row>
+                            <Col span={14}>
+                        <Form.Item label="Gender" name="gender" rules={[{ required: true, message: 'Please Select Gender!' }]}>
+                            <Radio.Group>
+                                <Radio value="male">Male</Radio>
+                                <Radio value="female">Female</Radio>
+                            </Radio.Group>
+                        </Form.Item> 
+                        </Col>
+                        <Col span={10}>
+                        <Form.Item label="Date of Birth" name="dateofbirth" rules={[{ required: true, message: 'Please enter Date of Birth!' }]}>
+                        <DatePicker style={{ width: '100%' }} />
+                        </Form.Item> 
+                        </Col>
+                        </Row>
                     </Col>
                     <Col span={6} className="photo-upload-col">
                     <Form.Item      
                             name="photo"
                             valuePropName="fileList" 
                             getValueFromEvent={e => Array.isArray(e) ? e : e?.fileList}
-                            rules={[{ required: true, message: 'Please upload a photo!' }]}
+                            // rules={[{ required: true, message: 'Please upload a photo!' }]}
                         >
                             <Upload
                                 listType="picture-card"
@@ -202,12 +216,10 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                     </Col>
                     <Col span={10}>
                         <Form.Item label="Payment Mode">
-                            <Checkbox>
-                                cash
-                            </Checkbox>
-                            <Checkbox>
-                                Online
-                            </Checkbox>
+                        <Radio.Group>
+                                <Radio value="cash">Cash</Radio>
+                                <Radio value="online">Online</Radio> 
+                            </Radio.Group>
 
                         </Form.Item>
                     </Col>
@@ -220,7 +232,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             label="Address"
                             name="Address"
                         >
-                            <Input.TextArea rows={1} placeholder="Enter full address" />
+                            <Input.TextArea rows={2} placeholder="Enter full address" />
                         </Form.Item>
                     </Col>
                 </Row>
