@@ -232,7 +232,11 @@ const Dashboard = ({ username, onLogout }) => {
             </Layout>
 
             <Modal
-                title="New Tenant"
+                title={
+                    <div style={{ textAlign: 'center', width: '100%', fontWeight: 'bold' }}>
+                        New Tenant Form
+                    </div>
+                }
                 visible={isModalVisible}
                 closable={false}
                 footer={null}
