@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Select, DatePicker, Button, Space, Upload, Row, Col } from 'antd';
+import { Form, Input, Select, DatePicker, Button, Space, Upload, Row, Col, Checkbox } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const AddTenantForm = ({ onSubmit, onCancel }) => {
@@ -28,16 +28,16 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
             const values = form.getFieldsValue();
             values.aadhar = values.aadhar.replace(/-/g, '');
             onSubmit(values);
-            form.resetFields(); 
+            form.resetFields();
             setEmail('');
-            setAadhar(''); 
+            setAadhar('');
         } catch (error) {
             console.error('Form validation failed:', error);
         }
     };
     const handleCancel = () => {
-        form.resetFields();  
-        if (onCancel) onCancel(); 
+        form.resetFields();
+        if (onCancel) onCancel();
     };
 
     return (
@@ -51,13 +51,13 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             label="Full Name ( As per GOVT ID )"
                             name="name"
                             rules={[{ required: true, message: 'Please enter tenant name!' }]}
-                            validateTrigger="onSubmit"  
+                            validateTrigger="onSubmit"
                         >
                             <Input placeholder="Enter tenant name" onKeyPress={handleTextInput} />
                         </Form.Item>
                     </Col>
                     <Col span={6}>
-                    <Form.Item
+                        <Form.Item
                             name="photo"
                             valuePropName="fileList"
                             getValueFromEvent={e => Array.isArray(e) ? e : e?.fileList}
@@ -65,21 +65,21 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                         >
                             <Upload
                                 listType="picture-card"
-                                maxCount={1} 
+                                maxCount={1}
                                 accept="image/*"
-                                beforeUpload={() => false} 
+                                beforeUpload={() => false}
                             >
                                 <div>
                                     <UploadOutlined />
                                     <div style={{ marginTop: 8 }}>Upload</div>
                                 </div>
                             </Upload>
-                            <div style={{ textAlign: 'center', fontSize:"12px",}}>Passport Photo</div>
+                            <div style={{ textAlign: 'center', fontSize: "12px", }}>Passport Photo</div>
                         </Form.Item>
                     </Col>
                 </Row>
 
-                {/* Row 2: Mobile No and Aadhar No */}
+                {/* Row 2: Mobile No and Email */}
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
@@ -89,79 +89,79 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                                 { required: true, message: 'Please enter mobile number!' },
                                 { pattern: /^[0-9]{10}$/, message: 'Please enter a valid 10-digit mobile number!' },
                             ]}
-                            validateTrigger="onSubmit" 
+                            validateTrigger="onSubmit"
                         >
                             <Input placeholder="Enter mobile number" maxLength={10} onKeyPress={handleNumberInput} />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
-                    <Form.Item
-                        label="Aadhar No"
-                        name="aadhar"
-                        rules={[
-                            { required: true, message: 'Please enter Aadhar number!' },
-                            { pattern: /^[0-9]{12}$/, message: 'Please enter a valid 12-digit Aadhar number!' },
-                        ]}
-                    >
-                        <Input
-                            placeholder="Enter 12-digit Aadhar number"
-                            maxLength={12} 
-                        />
-                    </Form.Item>
-
-
-                    </Col>
-                </Row>
-
-                {/* Row 3: Aadhar Upload */}
-                <Row gutter={16}>
-                    <Col span={24}>
-                        <Form.Item label="Upload Aadhar Card">
-                            <Upload
-                                name="aadharUpload"
-                                accept=".png,.jpg,.jpeg,.pdf"
-                                beforeUpload={() => false} 
-                            >
-                                <Button icon={<UploadOutlined />}>Upload Aadhar (PNG/JPG/PDF)</Button>
-                            </Upload>
+                        <Form.Item
+                            label="Email"
+                            name="email"
+                            rules={[
+                                { type: 'email', message: 'Please enter a valid email!' },
+                            ]}
+                        >
+                            <Input placeholder="Enter email" />
                         </Form.Item>
+
                     </Col>
+
                 </Row>
 
-                {/* Row 4: Email, Joining Date */}
+
+
+                {/* Row 3: Aadhar No, Joining Date */}
                 <Row gutter={16}>
                     <Col span={12}>
-                    <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                        { type: 'email', message: 'Please enter a valid email!' },
-                    ]}
-                >
-                    <Input placeholder="Enter email" />
-                </Form.Item>
+                        <Form.Item
+                            label="Aadhar No"
+                            name="aadhar"
+                            rules={[
+                                { required: true, message: 'Please enter Aadhar number!' },
+                                { pattern: /^[0-9]{12}$/, message: 'Please enter a valid 12-digit Aadhar number!' },
+                            ]}
+                        >
+                            <Input
+                                placeholder="Enter 12-digit Aadhar number"
+                                maxLength={12}
+                            />
+                        </Form.Item>
+
 
                     </Col>
+
                     <Col span={12}>
                         <Form.Item
                             label="Joining Date"
                             name="joiningDate"
                             rules={[{ required: true, message: 'Please enter joining date!' }]}
-                            validateTrigger="onSubmit" 
+                            validateTrigger="onSubmit"
                         >
                             <DatePicker style={{ width: '100%' }} />
                         </Form.Item>
                     </Col>
                 </Row>
 
-                {/* Row 5: Staying Mode, Permanent Address */}
+                {/* Row 4: Room Number, Staying Mode*/}
                 <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Room Number"
+                            name="roomNumber"
+                            rules={[{ required: true, message: 'Please enter room number!' }]}
+                            validateTrigger="onSubmit"
+                        >
+                            <Input placeholder="Enter room number" onKeyPress={handleNumberInput} />
+                        </Form.Item>
+
+                    </Col>
                     <Col span={12}>
                         <Form.Item
                             label="Staying Mode"
                             name="stayingMode"
                             rules={[{ required: true, message: 'Please select staying mode!' }]}
-                            validateTrigger="onSubmit" 
+                            validateTrigger="onSubmit"
                         >
                             <Select placeholder="Select staying mode">
                                 <Select.Option value="daily">Daily</Select.Option>
@@ -170,26 +170,43 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             </Select>
                         </Form.Item>
                     </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            label="Permanent Address"
-                            name="permanentAddress"
-                        >
-                            <Input.TextArea placeholder="Enter permanent address" />
+
+                </Row>
+                {/* Row 5: Aadhar Upload and Address */}
+                <Row gutter={16}>
+                    <Col span={14}>
+                        <Form.Item label="Upload Aadhar Card">
+                            <Upload
+                                name="aadharUpload"
+                                accept=".png,.jpg,.jpeg,.pdf"
+
+                                beforeUpload={() => false}
+                            >
+                                <Button icon={<UploadOutlined />}>Upload Aadhar (PNG/JPG/PDF)</Button>
+                            </Upload>
                         </Form.Item>
                     </Col>
+                    <Col span={10}>
+                        <Form.Item label="Payment Mode">
+                            <Checkbox>
+                                cash
+                            </Checkbox>
+                            <Checkbox>
+                                Online
+                            </Checkbox>
+
+                        </Form.Item>
+                    </Col>
+
                 </Row>
 
-                {/* Row 6: Room Number */}
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col span={24}>
                         <Form.Item
-                            label="Room Number"
-                            name="roomNumber"
-                            rules={[{ required: true, message: 'Please enter room number!' }]}
-                            validateTrigger="onSubmit" 
+                            label="Address"
+                            name="Address"
                         >
-                            <Input placeholder="Enter room number" onKeyPress={handleNumberInput} />
+                            <Input.TextArea rows={1} placeholder="Enter full address" />
                         </Form.Item>
                     </Col>
                 </Row>
