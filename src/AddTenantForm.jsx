@@ -8,14 +8,13 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
     const [email, setEmail] = useState('');
     const [aadhar, setAadhar] = useState('');
 
-    // Function to restrict input to only numeric characters
+
     const handleNumberInput = (e) => {
         if (!/^\d*$/.test(e.key)) {
             e.preventDefault();
         }
     };
 
-    // Function to restrict input to only alphabetic characters
     const handleTextInput = (e) => {
         if (!/^[a-zA-Z\s]*$/.test(e.key)) {
             e.preventDefault();
@@ -37,10 +36,8 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
         }
     };
     const handleCancel = () => {
-        form.resetFields();  // Reset form fields
-        setEmail('');        // Clear email state
-        setAadhar('');       // Clear aadhar state
-        if (onCancel) onCancel(); // Trigger the onCancel callback if provided
+        form.resetFields();  
+        if (onCancel) onCancel(); 
     };
 
     return (
@@ -54,25 +51,30 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             label="Full Name ( As per GOVT ID )"
                             name="name"
                             rules={[{ required: true, message: 'Please enter tenant name!' }]}
-                            validateTrigger="onSubmit"  // Validate on submit only
+                            validateTrigger="onSubmit"  
                         >
                             <Input placeholder="Enter tenant name" onKeyPress={handleTextInput} />
                         </Form.Item>
                     </Col>
                     <Col span={6}>
-                        <Form.Item>
+                    <Form.Item
+                            name="photo"
+                            valuePropName="fileList"
+                            getValueFromEvent={e => Array.isArray(e) ? e : e?.fileList}
+                            rules={[{ required: true, message: 'Please upload a photo!' }]}
+                        >
                             <Upload
-                                label="PHOTO"
                                 listType="picture-card"
-                                maxCount={1}
+                                maxCount={1} 
                                 accept="image/*"
-                                beforeUpload={() => false}
+                                beforeUpload={() => false} 
                             >
                                 <div>
                                     <UploadOutlined />
                                     <div style={{ marginTop: 8 }}>Upload</div>
                                 </div>
                             </Upload>
+                            <div style={{ textAlign: 'center', fontSize:"12px",}}>Passport Photo</div>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -87,7 +89,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                                 { required: true, message: 'Please enter mobile number!' },
                                 { pattern: /^[0-9]{10}$/, message: 'Please enter a valid 10-digit mobile number!' },
                             ]}
-                            validateTrigger="onSubmit"  // Validate on submit only
+                            validateTrigger="onSubmit" 
                         >
                             <Input placeholder="Enter mobile number" maxLength={10} onKeyPress={handleNumberInput} />
                         </Form.Item>
@@ -103,7 +105,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                     >
                         <Input
                             placeholder="Enter 12-digit Aadhar number"
-                            maxLength={12}  // Allow up to 12 digits
+                            maxLength={12} 
                         />
                     </Form.Item>
 
@@ -118,7 +120,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             <Upload
                                 name="aadharUpload"
                                 accept=".png,.jpg,.jpeg,.pdf"
-                                beforeUpload={() => false} // Disable automatic upload
+                                beforeUpload={() => false} 
                             >
                                 <Button icon={<UploadOutlined />}>Upload Aadhar (PNG/JPG/PDF)</Button>
                             </Upload>
@@ -145,7 +147,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             label="Joining Date"
                             name="joiningDate"
                             rules={[{ required: true, message: 'Please enter joining date!' }]}
-                            validateTrigger="onSubmit"  // Validate on submit only
+                            validateTrigger="onSubmit" 
                         >
                             <DatePicker style={{ width: '100%' }} />
                         </Form.Item>
@@ -159,7 +161,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             label="Staying Mode"
                             name="stayingMode"
                             rules={[{ required: true, message: 'Please select staying mode!' }]}
-                            validateTrigger="onSubmit"  // Validate on submit only
+                            validateTrigger="onSubmit" 
                         >
                             <Select placeholder="Select staying mode">
                                 <Select.Option value="daily">Daily</Select.Option>
@@ -185,7 +187,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             label="Room Number"
                             name="roomNumber"
                             rules={[{ required: true, message: 'Please enter room number!' }]}
-                            validateTrigger="onSubmit"  // Validate on submit only
+                            validateTrigger="onSubmit" 
                         >
                             <Input placeholder="Enter room number" onKeyPress={handleNumberInput} />
                         </Form.Item>
