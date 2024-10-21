@@ -5,7 +5,7 @@ import { UserOutlined, HomeOutlined, DollarOutlined, BellOutlined, SearchOutline
 import Highlighter from 'react-highlight-words';
 import { useNavigate } from 'react-router-dom';
 import CustomCard from './CustomCard';
-import AddTenantForm from './addTenantForm';
+import AddTenantForm from './AddTenantForm';
 import './App.css';
 
 const { Header, Content, Sider } = Layout;
