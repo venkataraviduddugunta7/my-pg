@@ -1,48 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Select, DatePicker, Button, Space, Upload, Row, Col, Checkbox, Radio } from 'antd';
+import { Form, Input, Select, DatePicker, Button, Space, Upload, Row, Col, Radio } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import './App.css'; // Import your custom styles
 
 const AddTenantForm = ({ onSubmit, onCancel }) => {
     const [form] = Form.useForm();
     const [rooms, setRooms] = useState([]);
     const [beds, setBeds] = useState([]);
-
-
-    const [email, setEmail] = useState('');
-    const [aadhar, setAadhar] = useState('');
-    const [fileList, setFileList] = useState([]); // To control uploaded files
+    const [fileList, setFileList] = useState([]);
+    const [submitted, setSubmitted] = useState(false); // State to track form submission
 
     const handlePhotoChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
     };
 
-
-    const handleNumberInput = (e) => {
-        if (!/^\d*$/.test(e.key)) {
-            e.preventDefault();
-        }
-    };
-
-    const handleTextInput = (e) => {
-        if (!/^[a-zA-Z\s]*$/.test(e.key)) {
-            e.preventDefault();
-        }
-    };
-
-
     const handleOk = async () => {
+        setSubmitted(true); // Mark the form as submitted
         try {
-            await form.validateFields();
-            const values = form.getFieldsValue();
+            const values = await form.validateFields();
             values.aadhar = values.aadhar.replace(/-/g, '');
             onSubmit(values);
             form.resetFields();
-            setEmail('');
-            setAadhar('');
+            setFileList([]);
+            setSubmitted(false); // Reset submission state
         } catch (error) {
             console.error('Form validation failed:', error);
         }
     };
+
     const handleCancel = () => {
         form.resetFields();
         if (onCancel) onCancel();
@@ -51,7 +36,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
     useEffect(() => {
         const fetchRooms = async () => {
             try {
-                const response = await fetch('/api/rooms'); // Fetch rooms from your API
+                const response = await fetch('/api/rooms');
                 const data = await response.json();
                 setRooms(data);
             } catch (error) {
@@ -64,7 +49,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
 
     const handleRoomChange = async (roomId) => {
         try {
-            const response = await fetch(`/api/rooms/${roomId}/beds`); // Fetch beds for the selected room
+            const response = await fetch(`/api/rooms/${roomId}/beds`);
             const data = await response.json();
             setBeds(data);
         } catch (error) {
@@ -72,85 +57,103 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
         }
     };
 
-    const onFinish = (values) => {
-        onSubmit(values);
-        form.resetFields();
+    // Handle input filtering
+    const handleInputChange = (e, type) => {
+        const { value } = e.target;
+        if (type === 'number' && !/^\d*$/.test(value)) {
+            e.preventDefault();
+        } else if (type === 'text' && !/^[a-zA-Z\s]*$/.test(value)) {
+            e.preventDefault();
+        }
     };
+
     return (
-        <div style={{ maxWidth: '850px', margin: '0 auto', padding: '18px', border: '1px solid #d9d9d9', borderRadius: '8px', backgroundColor: '#fff' }}>
-            {/* Header */}
-            <Form form={form} layout="vertical" validateTrigger="onSubmit">
-                {/* Row 1: Tenant Name (Full width) and Photo Upload */}
+        <div className="add-tenant-form">
+            <Form form={form} layout="vertical">
+                {/* Tenant Name and Photo Upload */}
                 <Row gutter={16}>
                     <Col span={18}>
-                    <Form.Item
-                            label="Full Name ( As per GOVT ID )"
+                        <Form.Item
+                            label="Full Name (As per GOVT ID)"
                             name="name"
-                            rules={[{ required: true, message: 'Please enter tenant name!' }]}
+                            rules={[{ required: submitted, message: 'Please enter tenant name!' }]}
                         >
-                            <Input placeholder="Enter tenant name" onKeyPress={handleTextInput} />
+                            <Input 
+                                placeholder="Enter tenant name" 
+                                onKeyPress={(e) => handleInputChange(e, 'text')} 
+                            />
                         </Form.Item>
-                        <Row>
+                        <Row >
                             <Col span={14}>
-                        <Form.Item label="Gender" name="gender" rules={[{ required: true, message: 'Please Select Gender!' }]}>
-                            <Radio.Group>
-                                <Radio value="male">Male</Radio>
-                                <Radio value="female">Female</Radio>
-                            </Radio.Group>
-                        </Form.Item> 
-                        </Col>
-                        <Col span={10}>
-                        <Form.Item label="Date of Birth" name="dateofbirth" rules={[{ required: true, message: 'Please enter Date of Birth!' }]}>
-                        <DatePicker style={{ width: '100%' }} />
-                        </Form.Item> 
-                        </Col>
+                                <Form.Item
+                                    label="Gender"
+                                    name="gender"
+                                    rules={[{ required: submitted, message: 'Please select gender!' }]}
+                                >
+                                    <Radio.Group>
+                                        <Radio value="male">Male</Radio>
+                                        <Radio value="female">Female</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                            </Col>
+                            <Col span={10}>
+                                <Form.Item
+                                    label="Date of Birth"
+                                    name="dateofbirth"
+                                    rules={[{ required: submitted, message: 'Please enter date of birth!' }]}
+                                >
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
                         </Row>
                     </Col>
-                    <Col span={6} className="photo-upload-col">
-                    <Form.Item      
+                    <Col span={6}>
+                        <Form.Item
                             name="photo"
-                            valuePropName="fileList" 
-                            getValueFromEvent={e => Array.isArray(e) ? e : e?.fileList}
-                            // rules={[{ required: true, message: 'Please upload a photo!' }]}
+                            valuePropName="fileList"
+                            getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
                         >
                             <Upload
                                 listType="picture-card"
-                                maxCount={1} 
+                                maxCount={1}
                                 accept="image/*"
                                 beforeUpload={() => false}
-                                fileList={fileList} 
-                                onChange={handlePhotoChange} 
+                                fileList={fileList}
+                                onChange={handlePhotoChange}
                                 showUploadList={{
                                     showPreviewIcon: false,
                                     showRemoveIcon: true,
-                                    showDownloadIcon: false, 
+                                    showDownloadIcon: false,
                                 }}
                             >
-                                {fileList.length < 1 && ( 
+                                {fileList.length < 1 && (
                                     <div>
                                         <UploadOutlined />
                                         <div style={{ marginTop: 8 }}>Upload</div>
                                     </div>
                                 )}
                             </Upload>
-                            <div style={{ textAlign: 'center', fontSize: "12px", }}>Tenant Photo</div>
+                            <div className="upload-label">Tenant Photo</div>
                         </Form.Item>
                     </Col>
                 </Row>
 
-                {/* Row 2: Mobile No and Email */}
+                {/* Mobile No and Email */}
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
                             label="Mobile No"
                             name="mobile"
                             rules={[
-                                { required: true, message: 'Please enter mobile number!' },
+                                { required: submitted, message: 'Please enter mobile number!' },
                                 { pattern: /^[0-9]{10}$/, message: 'Please enter a valid 10-digit mobile number!' },
                             ]}
-                            validateTrigger="onSubmit"
                         >
-                            <Input placeholder="Enter mobile number" maxLength={10} onKeyPress={handleNumberInput} />
+                            <Input 
+                                placeholder="Enter mobile number" 
+                                maxLength={10} 
+                                onKeyPress={(e) => handleInputChange(e, 'number')} 
+                            />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -163,89 +166,79 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                         >
                             <Input placeholder="Enter email" />
                         </Form.Item>
-
                     </Col>
-
                 </Row>
 
-
-
-                {/* Row 3: Aadhar No, Joining Date */}
-                <Row gutter={16}>
+                {/* Aadhar No, Joining Date */}
+                <Row>
                     <Col span={12}>
                         <Form.Item
                             label="Aadhar No"
                             name="aadhar"
                             rules={[
-                                { required: true, message: 'Please enter Aadhar number!' },
+                                { required: submitted, message: 'Please enter Aadhar number!' },
                                 { pattern: /^[0-9]{12}$/, message: 'Please enter a valid 12-digit Aadhar number!' },
                             ]}
                         >
-                            <Input
-                                placeholder="Enter 12-digit Aadhar number"
-                                maxLength={12}
+                            <Input 
+                                placeholder="Enter 12-digit Aadhar number" 
+                                maxLength={12} 
+                                onKeyPress={(e) => handleInputChange(e, 'number')} 
                             />
                         </Form.Item>
-
-
                     </Col>
-
                     <Col span={12}>
                         <Form.Item
                             label="Joining Date"
                             name="joiningDate"
-                            rules={[{ required: true, message: 'Please enter joining date!' }]}
-                            validateTrigger="onSubmit"
+                            rules={[{ required: submitted, message: 'Please enter joining date!' }]}
                         >
                             <DatePicker style={{ width: '100%' }} />
                         </Form.Item>
                     </Col>
                 </Row>
 
-                {/* Row 4: Room Number, Staying Mode*/}
-                <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        label="Room Number"
-                        name="roomId" // Change name to roomId
-                        rules={[{ required: true, message: 'Please select a room!' }]}
-                        validateTrigger="onSubmit"
-                    >
-                        <Select placeholder="Select room" onChange={handleRoomChange}>
-                            {rooms.map((room) => (
-                                <Select.Option key={room.room_id} value={room.room_id}>
-                                    {room.room_name} 
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        label="Bed Number"
-                        name="bedId" // New field for bed ID
-                        rules={[{ required: true, message: 'Please select a bed!' }]}
-                        validateTrigger="onSubmit"
-                    >
-                        <Select placeholder="Select bed">
-                            {beds.map((bed) => (
-                                <Select.Option key={bed.bed_id} value={bed.bed_id}>
-                                    {bed.bed_number} 
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-                    
+                {/* Room Number and Bed Number */}
+                <Row>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Room Number"
+                            name="roomId"
+                            rules={[{ required: submitted, message: 'Please select a room!' }]}
+                        >
+                            <Select placeholder="Select room" onChange={handleRoomChange}>
+                                {rooms.map((room) => (
+                                    <Select.Option key={room.room_id} value={room.room_id}>
+                                        {room.room_name}
+                                    </Select.Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Bed Number"
+                            name="bedId"
+                            rules={[{ required: submitted, message: 'Please select a bed!' }]}
+                        >
+                            <Select placeholder="Select bed">
+                                {beds.map((bed) => (
+                                    <Select.Option key={bed.bed_id} value={bed.bed_id}>
+                                        {bed.bed_number}
+                                    </Select.Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                    </Col>
                 </Row>
-                {/* Row 5: Aadhar Upload and Address */}
-                <Row gutter={16}>
+
+                {/* Aadhar Upload and Staying Mode */}
+                <Row >
                     <Col span={14}>
                         <Form.Item label="Upload Aadhar Card">
                             <Upload
                                 name="aadharUpload"
                                 accept=".png,.jpg,.jpeg,.pdf"
-
                                 beforeUpload={() => false}
                             >
                                 <Button icon={<UploadOutlined />}>Upload Aadhar (PNG/JPG/PDF)</Button>
@@ -256,8 +249,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                         <Form.Item
                             label="Staying Mode"
                             name="stayingMode"
-                            rules={[{ required: true, message: 'Please select staying mode!' }]}
-                            validateTrigger="onSubmit"
+                            rules={[{ required: submitted, message: 'Please select staying mode!' }]}
                         >
                             <Select placeholder="Select staying mode">
                                 <Select.Option value="daily">Daily</Select.Option>
@@ -265,14 +257,14 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             </Select>
                         </Form.Item>
                     </Col>
-
                 </Row>
 
-                <Row gutter={16}>
+                {/* Address */}
+                <Row >
                     <Col span={24}>
                         <Form.Item
                             label="Address"
-                            name="Address"
+                            name="address"
                         >
                             <Input.TextArea rows={2} placeholder="Enter full address" />
                         </Form.Item>
@@ -280,12 +272,12 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 </Row>
 
                 {/* Buttons */}
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                <div className="form-actions">
                     <Space>
-                        <Button className='customButtonLink' type="link" onClick={handleCancel}>
+                        <Button type="link" className='customButtonLink' onClick={handleCancel}>
                             Cancel
                         </Button>
-                        <Button className="customButtonLink" type="link" onClick={handleOk}>
+                        <Button type="link" className='customButtonLink' onClick={handleOk}>
                             Add Tenant
                         </Button>
                     </Space>

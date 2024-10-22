@@ -106,4 +106,35 @@
 :where(.css-dev-only-do-not-override-qnu6hi).ant-form-vertical .ant-form-item:not(.ant-form-item-horizontal) .ant-form-item-label {
   padding: 0px; 
 }
+:where(.css-dev-only-do-not-override-qnu6hi).ant-form-item {
+  margin-bottom: 8px;
+}
+.add-tenant-form {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
 
+.upload-label {
+  text-align: center;
+  font-size: 12px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.ant-btn-primary {
+  transition: background-color 0.3s;
+}
+
+.ant-btn-primary:hover {
+  background-color: #576ec1;
+  color: white;
+}
