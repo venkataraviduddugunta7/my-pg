@@ -102,7 +102,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                                     </div>
                                 )}
                             </Upload>
-                            <div style={{ textAlign: 'center', fontSize: "12px", }}>Passport Photo</div>
+                            <div style={{ textAlign: 'center', fontSize: "12px", }}>Tenant Photo</div>
                         </Form.Item>
                     </Col>
                 </Row>

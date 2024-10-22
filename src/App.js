@@ -60,16 +60,16 @@ const authenticateJWT = (req, res, next) => {
     });
 };
 
-const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRATION,  // 5 minutes expiration
-    issuer: process.env.JWT_ISSUER,
-    audience: process.env.JWT_AUDIENCE
-  });
+// const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+//     expiresIn: process.env.JWT_EXPIRATION,  // 5 minutes expiration
+//     issuer: process.env.JWT_ISSUER,
+//     audience: process.env.JWT_AUDIENCE
+//   });
 
-  const refreshToken = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET, {
-    expiresIn: '7d',  // Longer expiration for refresh token
-});
-res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+//   const refreshToken = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET, {
+//     expiresIn: '7d',  // Longer expiration for refresh token
+// });
+// res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
   
 
