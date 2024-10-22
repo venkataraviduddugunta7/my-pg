@@ -158,7 +158,17 @@ const Dashboard = ({ username, onLogout }) => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
+
             <Sider width={200} className="site-layout-background">
+                <div className="logo" style={{
+                    height: '64px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'shaded',
+                }}>
+                    <Title level={4} style={{ color: '#fff', margin: 0 }}>My PG !</Title>
+                </div>
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={['dashboard']}
@@ -181,7 +191,7 @@ const Dashboard = ({ username, onLogout }) => {
             <Layout>
                 <Header style={{ background: '#fff', padding: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px 0 16px' }}>
                     <Title level={3} style={{ margin: 0 }}>My Dashboard</Title>
-                    <Card className="customCard" bodyStyle={{ padding: "0px", margin:"10px" }} >
+                    <Card className="customCard" bodyStyle={{ padding: "0px", margin: "10px" }} >
                         <div className="no-padding-space">
                             <Space>
                                 <Avatar icon={<UserOutlined />} />
@@ -223,8 +233,8 @@ const Dashboard = ({ username, onLogout }) => {
                         </CustomCard>
                     </div>
                     <div style={{ textAlign: 'right', marginTop: 16 }}>
-                    <Button className="customButton" type="primary" size="large" style={{ borderRadius: "8px" }} onClick={handleAddTenant}>
-                            <PlusOutlined style={{color:"white"}}/>
+                        <Button className="customButton" type="primary" size="large" style={{ borderRadius: "8px" }} onClick={handleAddTenant}>
+                            <PlusOutlined style={{ color: "white" }} />
                             New Tenant
                         </Button>
                     </div>
