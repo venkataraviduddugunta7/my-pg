@@ -8,7 +8,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
     const [rooms, setRooms] = useState([]);
     const [beds, setBeds] = useState([]);
     const [fileList, setFileList] = useState([]);
-    const [submitted, setSubmitted] = useState(false); // State to track form submission
+    const [submitted, setSubmitted] = useState(false); 
 
     const handlePhotoChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
@@ -74,18 +74,20 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 <Row gutter={16}>
                     <Col span={18}>
                         <Form.Item
+                            className='poppins'
                             label="Full Name (As per GOVT ID)"
                             name="name"
                             rules={[{ required: submitted, message: 'Please enter tenant name!' }]}
                         >
-                            <Input 
-                                placeholder="Enter tenant name" 
-                                onKeyPress={(e) => handleInputChange(e, 'text')} 
+                            <Input
+                                placeholder="Enter tenant name"
+                                onKeyPress={(e) => handleInputChange(e, 'text')}
                             />
                         </Form.Item>
                         <Row >
                             <Col span={14}>
                                 <Form.Item
+                                    className='poppins'
                                     label="Gender"
                                     name="gender"
                                     rules={[{ required: submitted, message: 'Please select gender!' }]}
@@ -98,6 +100,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             </Col>
                             <Col span={10}>
                                 <Form.Item
+                                    className='poppins'
                                     label="Date of Birth"
                                     name="dateofbirth"
                                     rules={[{ required: submitted, message: 'Please enter date of birth!' }]}
@@ -109,6 +112,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                     </Col>
                     <Col span={6}>
                         <Form.Item
+                            className='poppins'
                             name="photo"
                             valuePropName="fileList"
                             getValueFromEvent={e => (Array.isArray(e) ? e : e?.fileList)}
@@ -142,6 +146,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
+                            className='poppins'
                             label="Mobile No"
                             name="mobile"
                             rules={[
@@ -149,15 +154,16 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                                 { pattern: /^[0-9]{10}$/, message: 'Please enter a valid 10-digit mobile number!' },
                             ]}
                         >
-                            <Input 
-                                placeholder="Enter mobile number" 
-                                maxLength={10} 
-                                onKeyPress={(e) => handleInputChange(e, 'number')} 
+                            <Input
+                                placeholder="Enter mobile number"
+                                maxLength={10}
+                                onKeyPress={(e) => handleInputChange(e, 'number')}
                             />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
+                            className='poppins'
                             label="Email"
                             name="email"
                             rules={[
@@ -170,9 +176,10 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 </Row>
 
                 {/* Aadhar No, Joining Date */}
-                <Row>
+                <Row  gutter={16}>
                     <Col span={12}>
                         <Form.Item
+                            className='poppins'
                             label="Aadhar No"
                             name="aadhar"
                             rules={[
@@ -180,15 +187,16 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                                 { pattern: /^[0-9]{12}$/, message: 'Please enter a valid 12-digit Aadhar number!' },
                             ]}
                         >
-                            <Input 
-                                placeholder="Enter 12-digit Aadhar number" 
-                                maxLength={12} 
-                                onKeyPress={(e) => handleInputChange(e, 'number')} 
+                            <Input
+                                placeholder="Enter 12-digit Aadhar number"
+                                maxLength={12}
+                                onKeyPress={(e) => handleInputChange(e, 'number')}
                             />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
+                            className='poppins'
                             label="Joining Date"
                             name="joiningDate"
                             rules={[{ required: submitted, message: 'Please enter joining date!' }]}
@@ -199,9 +207,10 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 </Row>
 
                 {/* Room Number and Bed Number */}
-                <Row>
+                <Row  gutter={16}>
                     <Col span={12}>
                         <Form.Item
+                            className='poppins'
                             label="Room Number"
                             name="roomId"
                             rules={[{ required: submitted, message: 'Please select a room!' }]}
@@ -217,6 +226,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                     </Col>
                     <Col span={12}>
                         <Form.Item
+                            className='poppins'
                             label="Bed Number"
                             name="bedId"
                             rules={[{ required: submitted, message: 'Please select a bed!' }]}
@@ -233,10 +243,11 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 </Row>
 
                 {/* Aadhar Upload and Staying Mode */}
-                <Row >
+                <Row gutter={16}>
                     <Col span={14}>
-                        <Form.Item label="Upload Aadhar Card">
+                        <Form.Item  className='poppins' label="Upload Aadhar Card">
                             <Upload
+                                className='inter'
                                 name="aadharUpload"
                                 accept=".png,.jpg,.jpeg,.pdf"
                                 beforeUpload={() => false}
@@ -247,6 +258,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                     </Col>
                     <Col span={10}>
                         <Form.Item
+                            className='poppins'
                             label="Staying Mode"
                             name="stayingMode"
                             rules={[{ required: submitted, message: 'Please select staying mode!' }]}
@@ -260,9 +272,10 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                 </Row>
 
                 {/* Address */}
-                <Row >
+                <Row gutter={16}>
                     <Col span={24}>
                         <Form.Item
+                            className='poppins'
                             label="Address"
                             name="address"
                         >
