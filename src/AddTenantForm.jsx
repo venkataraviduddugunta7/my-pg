@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, DatePicker, Button, Space, Upload, Row, Col, Checkbox, Radio } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const AddTenantForm = ({ onSubmit, onCancel }) => {
     const [form] = Form.useForm();
+    const [rooms, setRooms] = useState([]);
+    const [beds, setBeds] = useState([]);
+
 
     const [email, setEmail] = useState('');
     const [aadhar, setAadhar] = useState('');
@@ -45,6 +48,34 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
         if (onCancel) onCancel();
     };
 
+    useEffect(() => {
+        const fetchRooms = async () => {
+            try {
+                const response = await fetch('/api/rooms'); // Fetch rooms from your API
+                const data = await response.json();
+                setRooms(data);
+            } catch (error) {
+                console.error('Error fetching rooms:', error);
+            }
+        };
+
+        fetchRooms();
+    }, []);
+
+    const handleRoomChange = async (roomId) => {
+        try {
+            const response = await fetch(`/api/rooms/${roomId}/beds`); // Fetch beds for the selected room
+            const data = await response.json();
+            setBeds(data);
+        } catch (error) {
+            console.error('Error fetching beds:', error);
+        }
+    };
+
+    const onFinish = (values) => {
+        onSubmit(values);
+        form.resetFields();
+    };
     return (
         <div style={{ maxWidth: '850px', margin: '0 auto', padding: '18px', border: '1px solid #d9d9d9', borderRadius: '8px', backgroundColor: '#fff' }}>
             {/* Header */}
@@ -173,32 +204,39 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
 
                 {/* Row 4: Room Number, Staying Mode*/}
                 <Row gutter={16}>
-                    <Col span={12}>
-                        <Form.Item
-                            label="Room Number"
-                            name="roomNumber"
-                            rules={[{ required: true, message: 'Please enter room number!' }]}
-                            validateTrigger="onSubmit"
-                        >
-                            <Input placeholder="Enter room number" onKeyPress={handleNumberInput} />
-                        </Form.Item>
-
-                    </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            label="Staying Mode"
-                            name="stayingMode"
-                            rules={[{ required: true, message: 'Please select staying mode!' }]}
-                            validateTrigger="onSubmit"
-                        >
-                            <Select placeholder="Select staying mode">
-                                <Select.Option value="daily">Daily</Select.Option>
-                                <Select.Option value="weekly">Weekly</Select.Option>
-                                <Select.Option value="monthly">Monthly</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-
+                <Col span={12}>
+                    <Form.Item
+                        label="Room Number"
+                        name="roomId" // Change name to roomId
+                        rules={[{ required: true, message: 'Please select a room!' }]}
+                        validateTrigger="onSubmit"
+                    >
+                        <Select placeholder="Select room" onChange={handleRoomChange}>
+                            {rooms.map((room) => (
+                                <Select.Option key={room.room_id} value={room.room_id}>
+                                    {room.room_name} 
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        label="Bed Number"
+                        name="bedId" // New field for bed ID
+                        rules={[{ required: true, message: 'Please select a bed!' }]}
+                        validateTrigger="onSubmit"
+                    >
+                        <Select placeholder="Select bed">
+                            {beds.map((bed) => (
+                                <Select.Option key={bed.bed_id} value={bed.bed_id}>
+                                    {bed.bed_number} 
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
+                    
                 </Row>
                 {/* Row 5: Aadhar Upload and Address */}
                 <Row gutter={16}>
@@ -214,15 +252,19 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                             </Upload>
                         </Form.Item>
                     </Col>
-                    {/* <Col span={10}>
-                        <Form.Item label="Payment Mode">
-                        <Radio.Group>
-                                <Radio value="cash">Cash</Radio>
-                                <Radio value="online">Online</Radio> 
-                            </Radio.Group>
-
+                    <Col span={10}>
+                        <Form.Item
+                            label="Staying Mode"
+                            name="stayingMode"
+                            rules={[{ required: true, message: 'Please select staying mode!' }]}
+                            validateTrigger="onSubmit"
+                        >
+                            <Select placeholder="Select staying mode">
+                                <Select.Option value="daily">Daily</Select.Option>
+                                <Select.Option value="monthly">Monthly</Select.Option>
+                            </Select>
                         </Form.Item>
-                    </Col> */}
+                    </Col>
 
                 </Row>
 
