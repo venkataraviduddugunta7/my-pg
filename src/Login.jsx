@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Typography, Button, notification, Form, Input, Layout, Row, Col } from 'antd';
+import { Typography, Button, notification, Form, Layout, Row, Col,Input, } from 'antd';
+import { UserOutlined, KeyOutlined } from '@ant-design/icons';
+import {TextField} from "@mui/material";
 import CustomCard from './CustomCard';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +47,7 @@ const Login = ({ onSuccessfulLogin }) => { // Receive the callback prop
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
                         <Input
+                        prefix={<UserOutlined />}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
@@ -55,6 +58,7 @@ const Login = ({ onSuccessfulLogin }) => { // Receive the callback prop
                         rules={[{ required: true, message: 'Please input your password!' }]}
                     >
                         <Input.Password
+                            prefix={<KeyOutlined/>}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />

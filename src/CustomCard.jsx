@@ -7,8 +7,7 @@ const CustomCard = ({ title, extraActionNode, children }) => {
 
     return (
         <Card
-            // headStyle={{ border: "none", padding: "0px", margin: "0px" }}
-            // bodyStyle={{ padding: "0px", margin: "0px" }}
+         
             title={
                 <span
                     style={{

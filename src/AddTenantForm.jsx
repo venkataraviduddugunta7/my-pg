@@ -236,6 +236,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
                                     <Select.Option key={bed.bed_id} value={bed.bed_id}>
                                         {bed.bed_number}
                                     </Select.Option>
+                                   
                                 ))}
                             </Select>
                         </Form.Item>
