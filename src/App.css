@@ -87,22 +87,20 @@
   font-weight: bold !important; 
 }
 
-/* Card styles */
 .customCard {
   border-radius: 12px;
   padding: 0px;
   margin: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.1); /* Reduced shadow */
-  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease; 
   background-color: #fff;
-  transform: perspective(1000px) translateZ(0); /* Set a base for 3D space */
-  will-change: transform, box-shadow; /* Performance enhancement for transitions */
+  transform: perspective(1000px) translateZ(0); 
+  will-change: transform, box-shadow; 
 }
 
-/* Hover effect - Pressed effect with glow */
 .customCard:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.15), 0 0px 20px rgba(255, 188, 53, 0.808); /* Glowing edge effect */
-  transform: perspective(1000px) translateZ(-4px); /* Move card inward to simulate a pressed effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.15), 0 0px 20px rgba(255, 188, 53, 0.808);
+  transform: perspective(1000px) translateZ(-4px); 
 }
 .photo-upload-col {
   height: 132px; 
@@ -142,4 +140,73 @@
 .ant-btn-primary:hover {
   background-color: #576ec1;
   color: white;
+}
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 16px;
+  border-radius: 24px;
+}
+
+.paper-style {
+  background: #fffdf9; 
+  border: 2px dashed #dcdcdc;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+.paper-style::before,
+.paper-style::after {
+  content: '';
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background-color: #fffdf9;
+  border: 1px solid #dcdcdc;
+  border-radius: 50%;
+}
+
+.paper-style::before {
+  top: 10px;
+  left: -5px;
+}
+
+.paper-style::after {
+  bottom: 10px;
+  left: -5px;
+}
+
+.form-title {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.tenant-form {
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+button[type="submit"] {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+}
+
+button[type="reset"] {
+  color: #4caf50;
+  border: 1px solid #4caf50;
 }

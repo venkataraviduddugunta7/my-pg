@@ -7,9 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import CustomCard from './CustomCard';
 import AddTenantForm from './AddTenantForm';
 import './App.css';
+import AddTenantWithDesign from './AddTenantWithDesign';
+import './CustomModal.css';
+import DrawerComponent  from "./DrawerComponent";
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
+
+
 
 const Dashboard = ({ username, onLogout }) => {
     const [tenants, setTenants] = useState([
@@ -26,6 +31,24 @@ const Dashboard = ({ username, onLogout }) => {
         onLogout();
         navigate('/login');
     };
+    const handleSubmit = (values) => {
+      console.log('Submitted values:', values);
+      handleCloseModal();
+    };
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setDrawerOpen((prev) => !prev);
+  };
+
+  const menuItems = [
+    { label: "Home" },
+    { label: "Trending" },
+    { label: "My List" },
+    { label: "Settings" },
+  ];
+
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -152,8 +175,12 @@ const Dashboard = ({ username, onLogout }) => {
         setIsModalVisible(false);
     };
 
-    const handleCancel = () => {
-        setIsModalVisible(false);
+    const handleOpenModal = () => {
+      setIsModalVisible(true);
+    };
+  
+    const handleCloseModal = () => {
+      setIsModalVisible(false);
     };
 
     return (
@@ -212,12 +239,12 @@ const Dashboard = ({ username, onLogout }) => {
                             </CustomCard>
                         </Col>
                         <Col span={8}>
-                            <CustomCard title="Rooms Available" bordered={false}>
+                            <CustomCard title="Available Beds" bordered={false}>
                                 <Typography.Title level={2}>2</Typography.Title>
                             </CustomCard>
                         </Col>
                         <Col span={8}>
-                            <CustomCard title="Payments Due" bordered={false}>
+                            <CustomCard title="Payments Dues" bordered={false}>
                                 <Typography.Title level={2}>1</Typography.Title>
                             </CustomCard>
                         </Col>
@@ -238,21 +265,24 @@ const Dashboard = ({ username, onLogout }) => {
                             New Tenant
                         </Button>
                     </div>
+
+            <DrawerComponent
+              isOpen={drawerOpen}
+              onClose={toggleDrawer}
+              items={menuItems}
+            />
                 </Content>
             </Layout>
 
-            <Modal
-                title={
-                    <div style={{ textAlign: 'center', width: '100%', fontWeight: 'bold' }}>
-                        New Tenant Form
-                    </div>
-                }
-                visible={isModalVisible}
-                closable={false}
-                footer={null}
-            >
-                <AddTenantForm onSubmit={handleOk} onCancel={handleCancel} />
-            </Modal>
+        {isModalVisible && (
+          <div className="custom-modal-overlay">
+            <div className="custom-modal-content">
+              {/* <div className="custom-modal-header">
+              </div> */}
+              <AddTenantForm onSubmit={handleSubmit} />
+            </div>
+          </div>
+        )}
         </Layout>
     );
 };
