@@ -7,14 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import CustomCard from './CustomCard';
 import AddTenantForm from './AddTenantForm';
 import './App.css';
-import AddTenantWithDesign from './AddTenantWithDesign';
 import './CustomModal.css';
-import DrawerComponent  from "./DrawerComponent";
+import DrawerComponent from "./DrawerComponent";
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
-
-
 
 const Dashboard = ({ username, onLogout }) => {
     const [tenants, setTenants] = useState([
@@ -32,23 +29,22 @@ const Dashboard = ({ username, onLogout }) => {
         navigate('/login');
     };
     const handleSubmit = (values) => {
-      console.log('Submitted values:', values);
-      handleCloseModal();
+        console.log('Submitted values:', values);
+        handleCloseModal();
     };
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setDrawerOpen((prev) => !prev);
-  };
+    const toggleDrawer = () => {
+        setDrawerOpen((prev) => !prev);
+    };
 
-  const menuItems = [
-    { label: "Home" },
-    { label: "Trending" },
-    { label: "My List" },
-    { label: "Settings" },
-  ];
-
+    const menuItems = [
+        { label: "Home" },
+        { label: "Trending" },
+        { label: "My List" },
+        { label: "Settings" },
+    ];
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -156,14 +152,12 @@ const Dashboard = ({ username, onLogout }) => {
     };
 
     const handleOk = (newTenantData) => {
-        // Add new tenant to state
         const newTenant = {
             key: `${tenants.length + 1}`,
             ...newTenantData,
         };
         setTenants([...tenants, newTenant]);
 
-        // Send the data to the backend
         fetch('/api/tenants', {
             method: 'POST',
             headers: {
@@ -176,11 +170,11 @@ const Dashboard = ({ username, onLogout }) => {
     };
 
     const handleOpenModal = () => {
-      setIsModalVisible(true);
+        setIsModalVisible(true);
     };
-  
+
     const handleCloseModal = () => {
-      setIsModalVisible(false);
+        setIsModalVisible(false);
     };
 
     return (
@@ -266,23 +260,23 @@ const Dashboard = ({ username, onLogout }) => {
                         </Button>
                     </div>
 
-            <DrawerComponent
-              isOpen={drawerOpen}
-              onClose={toggleDrawer}
-              items={menuItems}
-            />
+                    <DrawerComponent
+                        isOpen={drawerOpen}
+                        onClose={toggleDrawer}
+                        items={menuItems}
+                    />
                 </Content>
             </Layout>
 
-        {isModalVisible && (
-          <div className="custom-modal-overlay">
-            <div className="custom-modal-content">
-              {/* <div className="custom-modal-header">
+            {isModalVisible && (
+                <div className="custom-modal-overlay">
+                    <div className="custom-modal-content">
+                        {/* <div className="custom-modal-header">
               </div> */}
-              <AddTenantForm onSubmit={handleSubmit} />
-            </div>
-          </div>
-        )}
+                        <AddTenantForm onSubmit={handleSubmit} />
+                    </div>
+                </div>
+            )}
         </Layout>
     );
 };
