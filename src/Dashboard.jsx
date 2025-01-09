@@ -271,9 +271,7 @@ const Dashboard = ({ username, onLogout }) => {
             {isModalVisible && (
                 <div className="custom-modal-overlay">
                     <div className="custom-modal-content">
-                        {/* <div className="custom-modal-header">
-              </div> */}
-                        <AddTenantForm onSubmit={handleSubmit} />
+                        <AddTenantForm onSubmit={handleSubmit} onCancel={handleCloseModal} />
                     </div>
                 </div>
             )}

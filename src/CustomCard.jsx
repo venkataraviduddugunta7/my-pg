@@ -7,12 +7,11 @@ const CustomCard = ({ title, extraActionNode, children }) => {
 
     return (
         <Card
-         
             title={
                 <span
                     style={{
                         fontWeight: 600,
-                        color: "#111314",
+                        color: "#576ec1",
                         fontSize: "20px",
                         lineHeight: "24px",
                         fontFamily: "Poppins",
