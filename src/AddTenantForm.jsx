@@ -22,6 +22,7 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
     const [fileList, setFileList] = useState([]);
     const [submitted, setSubmitted] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState(null);
+    const [formData, setFormData] = useState({});
 
     const roomData = [
         { room_id: 1, room_name: '101', beds: [1, 2, 3, 4, 5] },
@@ -39,18 +40,20 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
             const values = await form.validateFields();
             values.aadhar = values.aadhar.replace(/-/g, '');
             onSubmit(values);
-            form.resetFields();
+            setFormData({}); 
+            form.resetFields(); 
             setFileList([]);
             setSubmitted(false);
         } catch (error) {
             console.error('Form validation failed:', error);
         }
     };
+    
 
     const handleCancel = () => {
         form.resetFields();
         if (onCancel) onCancel();
-        
+
 
     };
 
@@ -91,7 +94,9 @@ const AddTenantForm = ({ onSubmit, onCancel }) => {
     return (
         <div className="punched-paper">
             <CustomCard className="add-tenant-form" title={"New Tenant Form"}>
-                <Form form={form} layout="vertical">
+                <Form form={form}
+                    layout="vertical"
+                    onValuesChange={(changedValues, allValues) => setFormData(allValues)}>
                     {/* Tenant Name and Photo Upload */}
                     <Row gutter={16}>
                         <Col span={18}>
